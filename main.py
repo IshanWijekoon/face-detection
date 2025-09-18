@@ -1,8 +1,10 @@
-import cv2
-import mediapipe as mp
+import cv2 # type: ignore
+import mediapipe as mp # type: ignore
 
 mp_drawing = mp.solutions.drawing_utils #accesses the drawing utilities
 mp_face_detect = mp.solutions.face_mesh #accesses the face mesh solution in MediaPipe. Use to initialize the model
+
+
 
 d_spec = mp_drawing.DrawingSpec(color = (255, 0, 0), thickness = 1, circle_radius=1)
 
@@ -10,8 +12,6 @@ video = cv2.VideoCapture(0) #creates a video capture object to access the defaul
 #video is the object used to read frames from the webcam
 
 with mp_face_detect.FaceMesh(min_detection_confidence= 0.5, min_tracking_confidence = 0.5) as face_mesh:
-    pass
-    
 
     while True:
         ret,image=video.read() #Reads a single frame from the webcam
@@ -20,7 +20,9 @@ with mp_face_detect.FaceMesh(min_detection_confidence= 0.5, min_tracking_confide
 
         image = cv2.flip(image, 1)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # convert frames into rgb
-        image.flags.writeable = False # making more accurecy
+
+        # making more accurecy
+        image.flags.writeable = False 
         output = face_mesh.process(image) # process the image
         # print(output)
         image.flags.writeable = True
